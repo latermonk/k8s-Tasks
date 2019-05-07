@@ -1,4 +1,4 @@
-# k8s-Tasks
+# 1. k8s-Tasks
 
 https://kubernetes.io/docs/tasks
 
@@ -6,19 +6,13 @@ https://kubernetes.io/docs/tasks
 https://kubernetes.io/docs/tasks
 
 
-![content00](_image/content00.png)
+<!-- TOC -->autoauto- [1. k8s-Tasks](#1-k8s-tasks)auto    - [1.1. Install Tools](#11-install-tools)auto    - [1.2. install-kubectl](#12-install-kubectl)auto        - [1.2.1. Linux install](#121-linux-install)auto        - [1.2.2. Configuration](#122-configuration)auto        - [1.2.3. Completion](#123-completion)auto    - [1.3. install-minikube](#13-install-minikube)auto    - [1.4. configure-pod-container](#14-configure-pod-container)autoauto<!-- /TOC -->
 
 
-@[TOC]
+## 1.1. Install Tools
+## 1.2. install-kubectl
 
-<!-- TOC -->autoauto- [k8s-Tasks](#k8s-tasks)auto    - [Install Tools](#install-tools)auto    - [install-kubectl](#install-kubectl)auto        - [Linux install](#linux-install)auto        - [Configuration](#configuration)auto        - [Completion](#completion)auto    - [install-minikube](#install-minikube)auto    - [configure-pod-container](#configure-pod-container)autoauto<!-- /TOC -->
-
-
-
-## Install Tools
-## install-kubectl
-
-### Linux install
+### 1.2.1. Linux install
 
 ```
 sudo mv ./kubectl /usr/local/bin/kubectl
@@ -27,7 +21,7 @@ kubectl version
 
 ```
 
-###  Configuration
+### 1.2.2. Configuration
 
 
 ```
@@ -43,7 +37,7 @@ kubectl cluster-info dump
 ```
 
 
-###  Completion
+### 1.2.3. Completion
 
 ```
 1. install bash-completion
@@ -69,13 +63,13 @@ complete -F __start_kubectl k
 
 
 
-## install-minikube
+## 1.3. install-minikube
 
 ```
 minikube start
 ```
 
-## configure-pod-container
+## 1.4. configure-pod-container
 
 
 
