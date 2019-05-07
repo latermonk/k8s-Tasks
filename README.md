@@ -5,9 +5,6 @@
 https://kubernetes.io/docs/tasks
 
 
-https://kubernetes.io/docs/tasks
-
-
 
 
 
@@ -106,8 +103,26 @@ resources:
 
 
 # administer-cluster
-# inject-data-application
-# run-application
-# job
-# access-application-cluster
+## Administration with kubeadm
+## manage-resources
+## network-policy-provider
+### Access Clusters Using the Kubernetes API
 
+
+# inject-data-application
+# Run-application
+## Run a Stateless Application Using a Deployment
+
+# Job
+# access-application-cluster
+# Monitoring, Logging, and Debugging
+# Extend Kubernetes
+# TLS
+# Federation
+# Manage Cluster Daemons
+# Install Service Catalog
+
+#  Others
+## Extend kubectl with plugins
+## Manage HugePages
+## Schedule GPUs
