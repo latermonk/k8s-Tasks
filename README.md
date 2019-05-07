@@ -11,6 +11,7 @@ https://kubernetes.io/docs/tasks
 
 @[TOC]
 
+<!-- TOC -->autoauto- [k8s-Tasks](#k8s-tasks)auto    - [Install Tools](#install-tools)auto    - [install-kubectl](#install-kubectl)auto        - [Linux install](#linux-install)auto        - [Configuration](#configuration)auto        - [Completion](#completion)auto    - [install-minikube](#install-minikube)auto    - [configure-pod-container](#configure-pod-container)autoauto<!-- /TOC -->
 
 
 
