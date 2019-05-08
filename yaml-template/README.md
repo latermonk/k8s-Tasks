@@ -1,5 +1,15 @@
 # YAML
 
+##  cmdline way
+```
+
+$ kubectl run nginx --image=nginx   (deployment)
+$ kubectl run nginx --image=nginx --restart=Never   (pod)
+$ kubectl run busybox --image=busybox --restart=OnFailure   (job)
+$ kubectl run busybox --image=busybox --schedule="* * * * *"  --restart=OnFailure (cronJob)
+
+```
+
 
 ## CronJob
 
