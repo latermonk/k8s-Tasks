@@ -223,6 +223,13 @@ spec:
 
 ## Run a normal job in kubernetes
 
+create a job
+
+```
+kubectl run busybox --image=busybox --restart=OnFailure
+```
+
+
 ```
 controllers/job.yaml 
 
