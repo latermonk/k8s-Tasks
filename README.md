@@ -254,7 +254,7 @@ spec:
 # access-application-cluster
 ## Configure Access to Multiple Clusters
 
-[related post]
+[related post]    
 https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
 
 https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/
