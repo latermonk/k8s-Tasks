@@ -266,6 +266,17 @@ https://kubernetes.io/docs/reference/kubectl/cheatsheet/#kubectl-context-and-con
 k8s 通过Configure文件对集群，上下文和用户信息进行集成，然后对用户进行管理。
 
 
+!!!
+### Googler的博客
+#### Mastering the KUBECONFIG file
+https://ahmet.im/blog/mastering-kubeconfig/
+
+[https://kubectl.docs.kubernetes.io/](https://kubectl.docs.kubernetes.io/)
+
+
+
+
+
 # Monitoring, Logging, and Debugging
 # Extend Kubernetes
 # TLS
