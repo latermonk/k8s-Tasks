@@ -1,4 +1,5 @@
-
+#  kubectl sheet
+[https://kubectl.docs.kubernetes.io/](https://kubectl.docs.kubernetes.io/)
 
 # k8s-Tasks 8
 
@@ -271,7 +272,9 @@ k8s 通过Configure文件对集群，上下文和用户信息进行集成，然�
 #### Mastering the KUBECONFIG file
 https://ahmet.im/blog/mastering-kubeconfig/
 
-[https://kubectl.docs.kubernetes.io/](https://kubectl.docs.kubernetes.io/)
+
+### Kubernetes – KUBECONFIG and Context
+https://theithollow.com/2019/02/11/kubernetes-kubeconfig-and-context/
 
 
 
