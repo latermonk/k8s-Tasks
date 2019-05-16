@@ -252,6 +252,19 @@ spec:
 
 
 # access-application-cluster
+## Configure Access to Multiple Clusters
+
+[related post]
+https://kubernetes.io/docs/tasks/access-application-cluster/configure-access-multiple-clusters/
+
+https://kubernetes.io/docs/concepts/configuration/organize-cluster-access-kubeconfig/
+
+https://kubernetes.io/docs/concepts/configuration/overview/
+
+https://kubernetes.io/docs/reference/kubectl/cheatsheet/#kubectl-context-and-configuration
+
+
+
 # Monitoring, Logging, and Debugging
 # Extend Kubernetes
 # TLS
