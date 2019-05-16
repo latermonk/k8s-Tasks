@@ -263,6 +263,7 @@ https://kubernetes.io/docs/concepts/configuration/overview/
 
 https://kubernetes.io/docs/reference/kubectl/cheatsheet/#kubectl-context-and-configuration
 
+k8s 通过Configure文件对集群，上下文和用户信息进行集成，然后对用户进行管理。
 
 
 # Monitoring, Logging, and Debugging
