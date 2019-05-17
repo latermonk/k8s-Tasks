@@ -277,6 +277,79 @@ https://ahmet.im/blog/mastering-kubeconfig/
 https://theithollow.com/2019/02/11/kubernetes-kubeconfig-and-context/
 
 
+```
+使用config命令来给kubectl客户端调整参数，常用的参数如下：
+
+--certificate-authority，CA认证的cert文件。
+
+--client-certificate，TLS的客户端证书。
+
+--client-key，TLS的客户端秘钥。
+
+--user，kubeconfig的用户名。
+
+--cluster，要使用的kubeconfig的cluster名。
+
+--context，要使用的kubeconfig的上下文名称。
+
+--kubeconfig，配置文件路径和名称。
+
+--log-dir，日志路径。
+
+--log-flush-frequency=5s，日志刷新时间间隔。
+
+--logtostderr=true，只输出到屏幕。
+
+--username，apiserver的basic authentication用户名。
+
+--password，apiserver的basic authentication密码。
+
+--server，apiserver地址。
+
+--stderrthreshold=2，该threshold级别以上日志才输出到stderr。
+
+--token，安全访问apiserver的token。
+
+--v=0，日志级别。
+
+以下是一个config命令示例：
+
+> # 设置集群参数
+
+> kubectl config set-cluster kubernetes \
+
+ --certificate-authority=/var/run/kubernetes/ca.crt \
+
+  --embed-certs=true \
+
+  --server=https://ip:port
+
+> # 设置客户端认证参数
+
+> kubectl config set-credentials admin \
+
+ --client-certificate=/var/run/kubernetes/cs_client.crt \
+
+  --embed-certs=true \
+
+ --client-key=/var/run/kubernetes/cs_client.key
+
+> # 设置上下文参数
+
+> kubectl config set-context kubernetes \
+
+  --cluster=kubernetes \
+
+  --user=admin
+
+> # 设置默认上下文
+
+> kubectl config use-context kubernetes
+
+执行后，通过kubectl config view可以看到完整的kubeconfig，文件保存在$HOME/.kube/config，其中证书和秘钥等以密文出现。
+
+```
+
 
 
 
