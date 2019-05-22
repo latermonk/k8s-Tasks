@@ -123,6 +123,10 @@ resources:
 
 
 # inject-data-application
+## define-command-argument-container
+[https://kubernetes.io/docs/tasks/inject-data-application/](https://kubernetes.io/docs/tasks/inject-data-application/)
+
+
 # Run-application
 ## Run a Stateless Application Using a Deployment
 
