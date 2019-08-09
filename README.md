@@ -257,6 +257,12 @@ spec:
 
 
 # Access-application-cluster
+
+##  Dash-board 
+
+[http://blog.k8sblog.cn/jekyll/update/2019/08/09/k8s-dashboard.html](http://blog.k8sblog.cn/jekyll/update/2019/08/09/k8s-dashboard.html)
+
+
 ## Configure Access to Multiple Clusters
 
 [related post]    
