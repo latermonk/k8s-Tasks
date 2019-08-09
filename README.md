@@ -256,7 +256,7 @@ spec:
 ```
 
 
-# access-application-cluster
+# Access-application-cluster
 ## Configure Access to Multiple Clusters
 
 [related post]    
@@ -358,6 +358,24 @@ https://theithollow.com/2019/02/11/kubernetes-kubeconfig-and-context/
 
 
 # Monitoring, Logging, and Debugging
+##  Application introspection and Debugging
+
+**Debug a node**
+```
+kubectl get nodes
+```
+```
+kubectl describe node xxx
+```
+
+```
+kubectl get node xxxxxxxx -o yaml
+```
+
+
+
+##  Auditing
+##  
 # Extend Kubernetes
 # TLS
 # Federation
