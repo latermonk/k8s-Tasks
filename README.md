@@ -378,14 +378,105 @@ kubectl describe node xxx
 kubectl get node xxxxxxxx -o yaml
 ```
 
+```
+k get events
 
 
-##  Auditing
-##  
+k get events  -n default
+```
+
+##  ~~Auditing~~
+## Debug Init Containers
+
+[https://kubernetes.io/docs/tasks/debug-application-cluster/debug-init-containers/](https://kubernetes.io/docs/tasks/debug-application-cluster/debug-init-containers/)
+
+
+[https://kubernetes.io/docs/concepts/workloads/pods/init-containers/](https://kubernetes.io/docs/concepts/workloads/pods/init-containers/)
+
+[https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initialization/#creating-a-pod-that-has-an-init-container/](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initialization/#creating-a-pod-that-has-an-init-container/)
+
+
+[https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initialization/#creating-a-pod-that-has-an-init-container/](https://kubernetes.io/docs/tasks/configure-pod-container/configure-pod-initialization/#creating-a-pod-that-has-an-init-container/)
+
+
+## Debug Pods and ReplicationControllers
+```shell
+kubectl logs ${POD_NAME} ${CONTAINER_NAME}
+```
+```shell
+kubectl logs --previous ${POD_NAME} ${CONTAINER_NAME}
+```
+
+```shell
+kubectl exec ${POD_NAME} -c ${CONTAINER_NAME} -- ${CMD} ${ARG1} ${ARG2} ... ${ARGN}
+```
+
+```shell
+kubectl exec cassandra -- cat /var/log/cassandra/system.log
+```
+
+## Debug Services
+
+
+## Get a Shell to a Running Container
+
+```shell
+kubectl exec -it shell-demo -- /bin/bash
+```
+
+```shell
+kubectl exec shell-demo env
+```
+```shell
+kubectl exec shell-demo ps aux
+kubectl exec shell-demo ls /
+kubectl exec shell-demo cat /proc/1/mounts
+```
+**Opening a shell when a Pod has more than one Container**
+
+```
+kubectl exec -it my-pod --container main-app -- /bin/bash
+```
+
+## Monitor Node Health
+
+
+
 # Extend Kubernetes
+
+```shell
+kubectl run node-hello --image=gcr.io/google-samples/node-hello:1.0 --port=8080
+```
+
+```
+kubectl proxy --port=8080
+```
+
+```
+curl http://localhost:8080/api/
+
+{
+  "kind": "APIVersions",
+  "versions": [
+    "v1"
+  ],
+  "serverAddressByClientCIDRs": [
+    {
+      "clientCIDR": "0.0.0.0/0",
+      "serverAddress": "10.0.2.15:8443"
+    }
+  ]
+}
+```
+
+
+
+
+
 # TLS
 # ~~Federation~~
 # Manage Cluster Daemons
+
 # Install Service Catalog
 [https://github.com/helm/helm/blob/master/docs/install.md](https://github.com/helm/helm/blob/master/docs/install.md)
 
