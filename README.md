@@ -130,10 +130,22 @@ resources:
 # Run-application
 ## Run a Stateless Application Using a Deployment
 
+```
+kubectl apply -f https://k8s.io/examples/application/deployment.yaml
+```
 
-### Create & Updating  & Scaling  & Deleting
-#### YAMl WAY
-#### CMD LINE
+```
+ kubectl apply -f https://k8s.io/examples/application/deployment-update.yaml
+```
+
+```
+kubectl apply -f https://k8s.io/examples/application/deployment-scale.yaml
+```
+
+```
+kubectl delete deployment nginx-deployment
+```
+
 
 ##  Run a Single-Instance Stateful Application
 mysql-pv.yaml:
@@ -219,6 +231,50 @@ spec:
           claimName: mysql-pv-claim
 
 ```
+
+```
+kubectl apply -f https://k8s.io/examples/application/mysql/mysql-pv.yaml
+```
+
+```
+kubectl apply -f https://k8s.io/examples/application/mysql/mysql-deployment.yaml
+```
+**check**
+
+```
+kubectl describe deployment mysql
+```
+
+
+**access mysql**
+
+```
+kubectl run -it --rm --image=mysql:5.6 --restart=Never mysql-client -- mysql -h mysql -ppassword
+```
+**清理资源**
+```
+kubectl delete deployment,svc mysql
+kubectl delete pvc mysql-pv-claim
+kubectl delete pv mysql-pv-volume
+```
+
+
+##  Run a Replicated Stateful Application
+
+```
+kubectl apply -f https://k8s.io/examples/application/mysql/mysql-configmap.yaml
+```
+
+```
+kubectl apply -f https://k8s.io/examples/application/mysql/mysql-services.yaml
+```
+
+```
+kubectl apply -f https://k8s.io/examples/application/mysql/mysql-statefulset.yaml
+```
+
+## Update API Objects in Place Using kubectl patch
+
 
 
 
