@@ -1,0 +1,391 @@
+1. View the pods in the default namespace with a custom view:
+kubectl get pods -o custom-columns=POD:metadata.name,NODE:spec.nodeName --sort-by spec.nodeName -n kube-system
+
+2. View the kube-scheduler YAML:
+kubectl get endpoints kube-scheduler -n kube-system -o yaml
+
+3.Create a stacked etcd topology using kubeadm:
+kubeadm init --config=kubeadm-config.yaml
+
+4. Watch as pods are created in the default namespace:
+kubectl get pods -n kube-system -w
+
+#Configuring Secure Cluster Communications
+To prevent unauthorized users from modifying the cluster state, RBAC is used, defining roles and role bindings for a user. 
+A service account resource is created for a pod to determine how it has control over the cluster state. 
+For example, the default service account will not allow you to list the services in a namespace.
+
+1. View the kube-config:
+cat .kube/config | more
+
+2. View the service account token:
+kubectl get secrets
+
+3. Create a new namespace named my-ns:
+kubectl create ns my-ns
+
+4. Run the kube-proxy pod in the my-ns namespace:
+kubectl run test --image=chadmcrowell/kubectl-proxy -n my-ns
+
+5. List the pods in the my-ns namespace:
+kubectl get pods -n my-ns
+
+6. Run a shell in the newly created pod:
+kubectl exec -it <name-of-pod> -n my-ns sh
+
+7. List the services in the namespace via API call:
+curl localhost:8001/api/v1/namespaces/my-ns/services
+
+8. View the token file from within a pod:
+cat /var/run/secrets/kubernetes.io/serviceaccount/token
+
+9. List the service account resources in your cluster:
+kubectl get serviceaccounts
+
+Helpful Links
+https://kubernetes.io/docs/tasks/configure-pod-container/configure-service-account/
+http://kubernetes.io/docs/admin
+https://kubernetes.io/docs/concepts/cluster-administration/cluster-administration-overview/#securing-a-cluster
+https://kubernetes.io/docs/reference/access-authn-authz/controlling-access/
+https://kubernetes.io/docs/reference/access-authn-authz/authorization/
+https://kubernetes.io/docs/tasks/access-kubernetes-api/http-proxy-access-api/
+
+# Running End-to-End Tests on Your Cluster
+Running end-to-end tests ensures your application will run efficiently without having to worry about cluster health problems. 
+Kubetest is a useful tool for providing end-to-end tests — however, it is beyond the scope of this exam. 
+In this lesson, we will go through the practice of testing our ability to run deployments, run pods, expose a container, execute a command from a container, run a service, and check the overall health of our nodes and pods for conditions.
+
+1. Run a simple nginx deployment:
+kubectl run nginx --image=nginx
+
+2. View the deployments in your cluster:
+kubectl get deployments
+
+3. View the pods in the cluster:
+kubectl get pods
+
+4. Use port forwarding to access a pod directly:
+kubectl port-forward $pod_name 8081:80
+
+5. Get a response from the nginx pod directly:
+curl --head http://127.0.0.1:8081
+
+6. View the logs from a pod:
+kubectl logs $pod_name
+
+7. Run a command directly from the container:
+kubectl exec -it nginx -- nginx -v
+
+8. Create a service by exposing port 80 of the nginx deployment:
+kubectl expose deployment nginx --port 80 --type NodePort
+
+9. List the services in your cluster:
+kubectl get services
+
+10. Get a response from the service:
+curl -I localhost:$node_port
+
+11. List the nodes' status:
+kubectl get nodes
+
+12. View detailed information about the nodes:
+kubectl describe nodes
+
+13. View detailed information about the pods:
+kubectl describe pods
+
+Helpful Links:
+https://github.com/kubernetes/community/blob/master/contributors/devel/sig-testing/e2e-tests.md
+https://kubernetes.io/docs/getting-started-guides/ubuntu/
+
+#Upgrading the Kubernetes Cluster
+kubeadm allows us to upgrade our cluster components in the proper order, making sure to include important feature upgrades we might want to take advantage of in the latest stable version of Kubernertes. 
+In this lesson, we will go through upgrading our cluster from version 1.13.5 to 1.14.1.
+
+1. View the version of the server and client on the master node:
+kubectl version --short
+
+2. View the version of the scheduler and controller manager:
+kubectl get pods -n kube-system kube-controller-manager-chadcrowell1c.mylabserver.com -o yaml
+
+3. View the name of the kube-controller pod:
+kubectl get pods -n kube-system
+
+4. Set the VERSION variable to the latest stable release of Kubernetes:
+export VERSION=v1.14.1
+
+5. Set the ARCH variable to the amd64 system:
+export ARCH=amd64
+
+6. View the latest stable version of Kubernetes using the variable:
+echo $VERSION
+
+7. Curl the latest stable version of Kubernetes:
+curl -sSL https://dl.k8s.io/release/${VERSION}/bin/linux/${ARCH}/kubeadm > kubeadm
+
+8. Install the latest version of kubeadm:
+sudo install -o root -g root -m 0755 ./kubeadm /usr/bin/kubeadm
+
+9. Check the version of kubeadm:
+sudo kubeadm version
+
+10. Plan the upgrade:
+sudo kubeadm upgrade plan
+
+11. Apply the upgrade to 1.14.1:
+kubeadm upgrade apply v1.14.1
+
+12. View the differences between the old and new manifests:
+diff kube-controller-manager.yaml /etc/kubernetes/manifests/kube-controller-manager.yaml
+
+13. Curl the latest version of kubelet:
+curl -sSL https://dl.k8s.io/release/${VERSION}/bin/linux/${ARCH}/kubelet > kubelet
+
+14. Install the latest version of kubelet:
+sudo install -o root -g root -m 0755 ./kubelet /usr/bin/kubelet
+
+15. Restart the kubelet service:
+sudo systemctl restart kubelet.service
+
+16. Watch the nodes as they change version:
+kubectl get nodes -w
+
+Helpful Links
+=============
+https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-upgrade/
+https://github.com/kubernetes/kubernetes/blob/master/CHANGELOG-1.13.md
+
+# Operating System Upgrades within a Kubernetes Cluster
+When we need to take a node down for maintenance, Kubernetes makes it easy to evict the pods on that node, take it down, and then continue scheduling pods after the maintenance is complete. 
+Furthermore, if the node needs to be decommissioned, you can just as easily remove the node and replace it with a new one, joining it to the cluster.
+
+1. See which pods are running on which nodes:
+kubectl get pods -o wide
+
+2. Evict the pods on a node:
+kubectl drain [node_name] --ignore-daemonsets
+
+3. Watch as the node changes status:
+kubectl get nodes -w
+
+4. Schedule pods to the node after maintenance is complete:
+kubectl uncordon [node_name]
+
+5. Remove a node from the cluster:
+kubectl delete node [node_name]
+
+6. Generate a new token:
+sudo kubeadm token generate
+
+7. List the tokens:
+sudo kubeadm token list
+
+8. Print the kubeadm join command to join a node to the cluster:
+sudo kubeadm token create [token_name] --ttl 2h --print-join-command
+
+Helpful Links
+https://kubernetes.io/docs/tasks/administer-cluster/cluster-management/#maintenance-on-a-node
+
+#Backing Up and Restoring a Kubernetes Cluster
+Backing up your cluster can be a useful exercise, especially if you have a single etcd cluster, as all the cluster state is stored there. 
+The etcdctl utility allows us to easily create a snapshot of our cluster state (etcd) and save this to an external location. 
+In this lesson, we’ll go through creating the snapshot and talk about restoring in the event of failure.
+
+1. Get the etcd binaries:
+wget https://github.com/etcd-io/etcd/releases/download/v3.3.12/etcd-v3.3.12-linux-amd64.tar.gz
+
+2. Unzip the compressed binaries:
+tar xvf etcd-v3.3.12-linux-amd64.tar.gz
+
+3. Move the files into /usr/local/bin:
+sudo mv etcd-v3.3.12-linux-amd64/etcd* /usr/local/bin
+
+4. Take a snapshot of the etcd datastore using etcdctl:
+sudo ETCDCTL_API=3 etcdctl snapshot save snapshot.db --cacert /etc/kubernetes/pki/etcd/server.crt --cert /etc/kubernetes/pki/etcd/ca.crt --key /etc/kubernetes/pki/etcd/ca.key
+
+5. View the help page for etcdctl:
+ETCDCTL_API=3 etcdctl --help
+
+6. Browse to the folder that contains the certificate files:
+cd /etc/kubernetes/pki/etcd/
+
+7. View that the snapshot was successful:
+ETCDCTL_API=3 etcdctl --write-out=table snapshot status snapshot.db
+
+8. Zip up the contents of the etcd directory:
+sudo tar -zcvf etcd.tar.gz etcd
+
+9. Copy the etcd directory to another server:
+scp etcd.tar.gz cloud_user@18.219.235.42:~/
+
+Helpful Links
+https://kubernetes.io/docs/tasks/administer-cluster/configure-upgrade-etcd/#backing-up-an-etcd-cluster
+https://github.com/etcd-io/etcd/blob/master/Documentation/op-guide/recovery.md
+
+# Pod and Node Networking
+Kubernetes keeps networking simple for effective communication between pods, even if they are located on a different node. 
+In this lesson, we’ll talk about pod communication from within a node, including how to inspect the virtual interfaces, and then get into what happens when a pod wants to talk to another pod on a different node.
+
+1. See which node our pod is on:
+kubectl get pods -o wide
+
+2. Log in to the node:
+ssh [node_name]
+
+3. View the node's virtual network interfaces:
+ifconfig
+
+4. View the containers in the pod:
+docker ps
+
+5. Get the process ID for the container:
+docker inspect --format '{{ .State.Pid }}' [container_id]
+
+6. Use nsenter to run a command in the process's network namespace:
+nsenter -t [container_pid] -n ip addr
+
+Helpful Links
+https://kubernetes.io/docs/concepts/cluster-administration/networking/
+
+# Container Network Interface (CNI)
+A Container Network Interface (CNI) is an easy way to ease communication between containers in a cluster. 
+The CNI has many responsibilities, including IP management, encapsulating packets, and mappings in userspace. 
+In this lesson, we will cover the details of the Flannel CNI we used in our Linux Academy cluster and talk about the ways in which we simplified communication in our cluster.
+
+1. Apply the Flannel CNI plugin:
+kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/bc79dd1505b0c8681ece4de4c0d86c5cd2643275/Documentation/kube-flannel.yml
+
+Helpful Links
+https://github.com/coreos/flannel/blob/master/Documentation/kubernetes.md
+https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/#pod-network
+https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+# Service Networking
+Services allow our pods to move around, get deleted, and replicate, all without having to manually keep track of their IP addresses in the cluster. 
+This is accomplished by creating one gateway to distribute packets evenly across all pods. 
+In this lesson, we will see the differences between a NodePort service and a ClusterIP service and see how the iptables rules take effect when traffic is coming in.
+
+1. YAML for the nginx NodePort service:
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-nodeport
+spec:
+  type: NodePort
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+    nodePort: 30080
+  selector:
+    app: nginx
+    
+2. Get the services YAML output for all the services in your cluster:
+kubectl get services -o yaml
+
+3. Try and ping the clusterIP service IP address:
+ping 10.96.0.1
+
+4. View the list of services in your cluster:
+kubectl get services
+
+5. View the list of endpoints in your cluster that get created with a service:
+kubectl get endpoints
+
+6. Look at the iptables rules for your services:
+sudo iptables-save | grep KUBE | grep nginx
+
+Helpful Links
+https://kubernetes.io/docs/concepts/services-networking/service/
+
+# Ingress Rules and Load Balancers
+When handling traffic from outside sources, there are two ways to direct that traffic to your pods: deploying a load balancer, and creating an ingress controller and an Ingress resource. 
+In this lesson, we will talk about the benefits of each and how Kubernetes distributes traffic to the pods on a node to reduce latency and direct traffic to the appropriate services within your cluster.
+
+1. View the list of services:
+kubectl get services
+
+2. The load balancer YAML spec:
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-loadbalancer
+spec:
+  type: LoadBalancer
+  ports:
+  - port: 80
+    targetPort: 80
+  selector:
+    app: nginx
+    
+3. Create a new deployment:
+kubectl run kubeserve2 --image=chadmcrowell/kubeserve2
+
+4. View the list of deployments:
+kubectl get deployments
+
+5. Scale the deployments to 2 replicas:
+kubectl scale deployment/kubeserve2 --replicas=2
+
+6. View which pods are on which nodes:
+kubectl get pods -o wide
+
+7. Create a load balancer from a deployment:
+kubectl expose deployment kubeserve2 --port 80 --target-port 8080 --type LoadBalancer
+
+8. View the services in your cluster:
+kubectl get services
+
+9. Watch as an external port is created for a service:
+kubectl get services -w
+
+10. Look at the YAML for a service:
+kubectl get services kubeserve2 -o yaml
+
+11. Curl the external IP of the load balancer:
+curl http://[external-ip]
+
+12. View the annotation associated with a service:
+kubectl describe services kubeserve
+
+13. Set the annotation to route load balancer traffic local to the node:
+kubectl annotate service kubeserve2 externalTrafficPolicy=Local
+
+14. The YAML for an Ingress resource:
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: service-ingress
+spec:
+  rules:
+  - host: kubeserve.example.com
+    http:
+      paths:
+      - backend:
+          serviceName: kubeserve2
+          servicePort: 80
+  - host: app.example.com
+    http:
+      paths:
+      - backend:
+          serviceName: nginx
+          servicePort: 80
+  - http:
+      paths:
+      - backend:
+          serviceName: httpd
+          servicePort: 80
+          
+15. Edit the ingress rules:
+kubectl edit ingress
+
+16. View the existing ingress rules:
+kubectl describe ingress
+
+17. Curl the hostname of your Ingress resource:
+curl http://kubeserve2.example.com
+
+Helpful Links
+https://kubernetes.io/docs/tasks/access-application-cluster/create-external-load-balancer/
+https://kubernetes.io/docs/concepts/services-networking/ingress/
