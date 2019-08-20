@@ -8,6 +8,8 @@ https://instruqt.com/public/topics/getting-started-with-kubernetes
 
 
 
+
+
 #  kubectl sheet
 [https://kubectl.docs.kubernetes.io/](https://kubectl.docs.kubernetes.io/)
 
