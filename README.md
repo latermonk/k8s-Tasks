@@ -3,6 +3,8 @@
 
 https://www.katacoda.com/courses/kubernetes   
 
+https://instruqt.com/public/topics/getting-started-with-kubernetes   
+
 
 
 
