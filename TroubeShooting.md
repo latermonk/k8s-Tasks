@@ -4,7 +4,7 @@
 node3 firewalld is open , close th firewall
 ```
 
-**Q2: Master node notReady**
+**Q2: Master node notReady**     
 [https://talkcloudlytome.com/troubleshooting-kubernetes-master-nodes/](https://talkcloudlytome.com/troubleshooting-kubernetes-master-nodes/)
 
 ```bash
