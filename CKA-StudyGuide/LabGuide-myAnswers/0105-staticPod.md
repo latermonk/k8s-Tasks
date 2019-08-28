@@ -122,7 +122,7 @@ kube-scheduler.yaml
 /etc/kubernetes/manifests
 ```
 
-
+##   方法二
 ##  配置kubelet参数并重启kubelet
 
 
