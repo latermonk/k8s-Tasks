@@ -18,6 +18,15 @@ https://instruqt.com/public/topics/getting-started-with-kubernetes
 https://kubernetes.io/docs/tasks
 
 
+
+
+
+#  Cluster  setup   
+
+https://github.com/latermonk/kubernetes-the-hard-way-vagrant    
+
+
+
 ```
 
 $ kubectl run nginx --image=nginx   (deployment)
