@@ -136,6 +136,9 @@ Add this line :
 staticPodPath: /etc/staticpods
 ```
 
+
+然后重启 kubelet进程即可
+
 ```
 sudo systemctl daemon-reload
 sudo systemctl restart kubelet
