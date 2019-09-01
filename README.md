@@ -21,6 +21,8 @@ https://kubernetes.io/docs/tasks
 
 
 
+
+
 #  Cluster  setup   
 
 https://github.com/latermonk/kubernetes-the-hard-way-vagrant    
