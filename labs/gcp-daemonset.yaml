@@ -1,0 +1,25 @@
+apiVersion: v1/beta2 # For Kubernetes version 1.9 and later, use apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentd
+spec:
+  selector:
+      matchLabels:
+        name: fluentd # Label selector that determines which Pods belong to the DaemonSet
+  template:
+    metadata:
+      labels:
+        name: fluentd # Pod template's label selector
+    spec:
+      nodeSelector:
+        type: prod # Node label selector that determines on which nodes Pod should be scheduled
+                   # In this case, Pods are only scheduled to nodes bearing the label "type: prod"
+      containers:
+      - name: fluentd
+        image: gcr.io/google-containers/fluentd-elasticsearch:1.20
+        resources:
+          limits:
+            memory: 200Mi
+          requests:
+            cpu: 100m
+            memory: 200Mi
